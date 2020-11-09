@@ -1,8 +1,8 @@
 Package: statgenGxE
 Type: Package
 Title: Genotype by Environment (GxE) Analysis
-Version: 1.0.2
-Date: 2020-09-28
+Version: 1.0.3
+Date: 2020-11-03
 Authors@R: c(person(given = "Bart-Jan", 
                     family = "van Rossum", 
                     email = "bart-jan.vanrossum@wur.nl", 
@@ -65,8 +65,11 @@ Imports: emmeans, ggplot2 (>= 3.3.0), gridExtra, knitr, lme4, methods,
 Suggests: asreml(>= 3.0), rmarkdown, testthat
 SystemRequirements: pdflatex
 VignetteBuilder: knitr
+URL: https://biometris.github.io/statgenGxE/index.html,
+        https://github.com/Biometris/statgenGxE/
+BugReports: https://github.com/Biometris/statgenGxE/issues
 NeedsCompilation: no
-Packaged: 2020-09-29 06:13:07 UTC; rossu027
+Packaged: 2020-11-03 13:13:40 UTC; rossu027
 Author: Bart-Jan van Rossum [aut, cre],
   Fred van Eeuwijk [ctb] (<https://orcid.org/0000-0003-3672-2921>),
   Martin Boer [ctb],
@@ -80,4 +83,4 @@ Author: Bart-Jan van Rossum [aut, cre],
   Choazhi Zheng [ctb] (<https://orcid.org/0000-0001-6030-3933>)
 Maintainer: Bart-Jan van Rossum <bart-jan.vanrossum@wur.nl>
 Repository: CRAN
-Date/Publication: 2020-10-01 09:20:02 UTC
+Date/Publication: 2020-11-09 13:10:02 UTC
