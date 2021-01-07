@@ -3,6 +3,8 @@ context("gxeFW")
 test_that("general checks in gxeFw function properly", {
   expect_error(gxeFw(1, trait = "t1"),
                "TD should be a valid object of class TD")
+  expect_error(gxeFw(testTD, trait = c("t1", "t1")),
+               "trait has to be a character string of length 1")
   expect_error(gxeFw(testTD, trait = "t5"),
                "t5 has to be a column in TD")
   expect_error(gxeFw(testTD, trait = "t1", useWt = TRUE),
@@ -106,4 +108,13 @@ test_that("option genotypes functions properly", {
   geFw <- gxeFw(testTD, trait = "t1", genotypes = paste0("G", 1:10))
   expect_is(geFw, "FW")
   expect_equal(dim(geFw$estimates), c(10, 7))
+})
+
+test_that("a user friendly warning is given for genotypes in single trial", {
+  testTD2 <- testTD
+  testTD2$E2 <- testTD2$E2[testTD2$E2[["genotype"]] != "G1", ]
+  testTD2$E3 <- testTD2$E3[testTD2$E3[["genotype"]] != "G1", ]
+  expect_warning(gxeFw(testTD2, trait = "t1"),
+                 c("following genotypes are present in only one trial"))
+  expect_silent(gxeFw(testTD2, trait = "t1", genotypes = paste0("G", 2:15)))
 })

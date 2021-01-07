@@ -37,7 +37,7 @@ plot(dropsTD, plotType = "scatter", traits = "grain.yield", colorGenoBy = "genet
 #  options("statgen.genoColors" = c("blue", "green", "yellow"))
 #  options("statgen.trialColors" = c("red", "brown", "purple"))
 
-## ----geVarComp, message=FALSE-----------------------------------------------------------
+## ----geVarComp, message=FALSE, eval='requireNamespace("Matrix)&&packageVersion("Matrix")>"1.3.0"'----
 ## Fit a model where trials are nested within scenarios.
 dropsVarComp <- gxeVarComp(TD = dropsTD, trait = "grain.yield", nestingFactor = "scenarioFull")
 summary(dropsVarComp)
@@ -46,17 +46,17 @@ summary(dropsVarComp)
 #  ## Print diagnostics - output suppressed because of the large number of rows.
 #  diagnostics(dropsVarComp)
 
-## ----vcHerit, R.options=list(digits=4)--------------------------------------------------
+## ----vcHerit, R.options=list(digits=4), eval='requireNamespace("Matrix)&&packageVersion("Matrix")>"1.3.0"'----
 ## Extract variance components.
 vc(dropsVarComp)
 ## Compute heritability.
 herit(dropsVarComp)
 
-## ----VarCompPlot------------------------------------------------------------------------
+## ----VarCompPlot, eval='requireNamespace("Matrix)&&packageVersion("Matrix")>"1.3.0"'----
 ## Plot the results of the fitted model.
 plot(dropsVarComp)
 
-## ----predict, R.options=list(digits=4)--------------------------------------------------
+## ----predict, R.options=list(digits=4), eval='requireNamespace("Matrix)&&packageVersion("Matrix")>"1.3.0"'----
 ## Predictions of the genotype main effect.
 predGeno <- predict(dropsVarComp)
 head(predGeno)

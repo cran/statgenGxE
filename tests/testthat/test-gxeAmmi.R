@@ -3,6 +3,8 @@ context("gxeAmmi")
 test_that("general checks in gxeAmmi function properly", {
   expect_error(gxeAmmi(1, trait = "t1"),
                "TD should be a valid object of class TD")
+  expect_error(gxeAmmi(testTD, trait = c("t1", "t1")),
+               "trait has to be a character string of length 1")
   expect_error(gxeAmmi(BLUEs, trait = "t5"),
                "t5 has to be a column in TD")
   expect_error(gxeAmmi(BLUEs, trials = "E4", trait = "t1"),
@@ -154,12 +156,12 @@ test_that("option GGE functions properly", {
   geAmmiGGE <- gxeGGE(BLUEs, trait = "t1")
   expect_equal(dim(geAmmiGGE$anova), c(5, 5))
   expect_equal(as.numeric(as.matrix(geAmmiGGE$anova)),
-               c(2, 42, 15, 13, 14, 513.074183597497, 16316.0927753893,
+               c(2, 42, 16, 14, 12, 513.074183597497, 16316.0927753893,
                  8142.70251527196, 5494.4162597362, 2678.97400038115,
-                 256.537091798748, 388.478399414031, 542.846834351464,
-                 422.647404595093, 191.355285741511, 0.660363850823368,
-                 NA, 2.83685309369901, 2.20870514737711, NA, 0.521944696647847,
-                 NA, 0.0292095744908586, 0.0772511378707132, NA))
+                 256.537091798748, 388.478399414031, 508.918907204497,
+                 392.458304266872, 223.247833365096, 0.660363850823368,
+                 NA, 2.27961409315099, 1.75794899485117, NA, 0.521944696647847,
+                 NA, 0.0769754584486909, 0.166762326653175, NA))
 })
 
 test_that("option excludeGeno functions properly", {

@@ -8,7 +8,7 @@
 An object of class \code{data.frame} with 2460 rows and 20 columns.
 }
 \source{
-\url{https://data.inrae.fr/dataset.xhtml?persistentId=doi:10.15454/IASSTN}
+\doi{10.15454/IASSTN}
 }
 \usage{
 dropsPheno
@@ -73,6 +73,6 @@ scenarioWater and scenarioTemp}
 Millet, E. J., Pommier, C., et al. (2019). A multi-site
 experiment in a network of European fields for assessing the maize yield
 response to environmental scenarios (Data set).
-\url{https://doi.org/10.15454/IASSTN}
+\doi{10.15454/IASSTN}
 }
 \keyword{datasets}
