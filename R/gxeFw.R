@@ -215,9 +215,11 @@ gxeFw <- function(TD,
   fProb <- pf(q = devr, df1 = rDf, df2 = rDf[4], lower.tail = FALSE)
   aovTable <- data.frame("Df" = rDf, "Sum Sq" = rDev, "Mean Sq" = mDev,
                          "F value" = devr, "Pr(>F)" = fProb,
-                         row.names = c("genotype", "trial", "Sensitivities",
+                         row.names = c("Genotype", "Trial", "Sensitivities",
                                        "Residual", "Total"),
                          check.names = FALSE)
+  aovTable <- aovTable[c("Trial", "Genotype", "Sensitivities", "Residual",
+                         "Total"), ]
   class(aovTable) <- c("anova", "data.frame")
   ## Extract sensitivity beta.
   sens <- as.vector(tapply(X = TDTot[["beta"]], INDEX = TDTot[["genotype"]],
@@ -255,10 +257,11 @@ gxeFw <- function(TD,
     orderSens <- order(sens, decreasing = (sorted == "descending"))
   }
   ## Construct estimate data.frame.
-  estimates <- data.frame(genotype = factor(levels(TDTot[["genotype"]]),
+  estimates <- data.frame(Genotype = factor(levels(TDTot[["genotype"]]),
                                             labels = levels(TDTot[["genotype"]])),
-                          sens, rank = rank(-sens), se_sens = sigmaE, genMean,
-                          se_genMean = sigma, MSdeviation = mse,
+                          GenMean = genMean, SE_GenMean = sigma,
+                          Rank = rank(-sens), Sens = sens,
+                          SE_Sens = sigmaE, MSdeviation = mse,
                           row.names = 1:length(sens))[orderSens, ]
   ## Construct data.frame with trial effects.
   matchPos <- match(paste0("trial", levels(TDTot[["trial"]]), ":beta"),
@@ -292,11 +295,11 @@ gxeFw <- function(TD,
                           INDEX = fittedGeno[["trial"]], FUN = mean, na.rm = TRUE)
   meansFitted <- meansFitted[matchPos2]
   seMeansFitted <- seMeansFitted[matchPos2]
-  envEffsSummary <- data.frame(trial = names(meansFitted), envEff = envEffs,
-                               se_envEff = seEnvEffs,
-                               envMean = as.vector(meansFitted),
-                               se_envMean = as.vector(seMeansFitted),
-                               rank = rank(-meansFitted), row.names = NULL)
+  envEffsSummary <- data.frame(Trial = names(meansFitted), EnvEff = envEffs,
+                               SE_EnvEff = seEnvEffs,
+                               EnvMean = as.vector(meansFitted),
+                               SE_EnvMean = as.vector(seMeansFitted),
+                               Rank = rank(-meansFitted), row.names = NULL)
   return(createFW(estimates = estimates, anova = aovTable,
                   envEffs = envEffsSummary, TD = createTD(TDTot),
                   fittedGeno = fittedGeno, trait = trait, nGeno = nGeno,

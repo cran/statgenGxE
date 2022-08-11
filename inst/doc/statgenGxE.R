@@ -120,7 +120,7 @@ plot(dropsAm, scale = 0.5, plotType = "AMMI2")
 ## ----plotAmmiCol, fig.width=5, fig.height=5, out.width="75%"----------------------------
 ## Create an AMMI2 biplot.
 ## Color genotypes based on variable geneticGroup. Use custom colors.
-## Color environments based on variable scenarioFull
+## Color environments based on variable scenarioFull.
 plot(dropsAm, scale = 0.4, plotType = "AMMI2", 
      colorGenoBy = "geneticGroup", colGeno = c("red", "blue", "green", "yellow"),
      colorEnvBy = "scenarioFull")
@@ -129,6 +129,12 @@ plot(dropsAm, scale = 0.4, plotType = "AMMI2",
 ## ----plotAmmiConvHull, fig.width=5, fig.height=5, out.width="75%"-----------------------
 ## Create an AMMI2 biplot with convex hull around the genotypes.
 plot(dropsAm, scale = 0.4, plotType = "AMMI2", plotConvHull = TRUE, colorEnvBy = "scenarioFull")
+
+## ----plotAmmiRotatePC, fig.width=5, fig.height=5, out.width="75%"-----------------------
+## Create an AMMI2 biplot.
+## Align environment Mur13W with the positive x-axis.
+plot(dropsAm, scale = 0.4, plotType = "AMMI2", colorEnvBy = "scenarioFull",
+     rotatePC = "Mur13W")
 
 ## ----geGGE, R.options=list(digits=6)----------------------------------------------------
 ## Run gxeGGE with default settings.

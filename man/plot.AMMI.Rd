@@ -21,6 +21,7 @@
   envFactor = 1,
   primAxis = "PC1",
   secAxis = "PC2",
+  rotatePC = NULL,
   title = NULL,
   output = TRUE
 )
@@ -86,6 +87,9 @@ plotted on the secondary axis of the AMMI2 plot. Has to be given as
 \code{"PCn"} where n is the number of the principal component. n Has to
 differ from \code{primAxis}.}
 
+\item{rotatePC}{A character string indicating a genotype or environment that
+is to be aligned with the positive x-axis in the plot.}
+
 \item{title}{A character string used a title for the plot.}
 
 \item{output}{Should the plot be output to the current device? If
@@ -113,14 +117,17 @@ geAmmi <- gxeAmmi(TD = TDMaize, trait = "yld")
 plot(geAmmi)
 
 ## Create an AMMI2 biplot.
-plot(geAmmi, plotType = "AMMI2")
+plot(geAmmi, plotType = "AMMI2", scale = 0.5)
 
-## Run GGE analysis.#'
+## Create an AMMI2 biplot, with HN96b along the positive x-axis.
+plot(geAmmi, plotType = "AMMI2", scale = 0.5, rotatePC = "HN96b")
+
+## Run GGE analysis.
 geGGE <- gxeGGE(TD = TDMaize, trait = "yld")
 
 ## Create an GGE2 biplot.
 ## Add a convex hull.
-plot(geAmmi, plotType = "AMMI2", plotConvHull = TRUE)
+plot(geGGE, plotType = "GGE2", scale = 0.5, plotConvHull = TRUE)
 
 }
 \seealso{

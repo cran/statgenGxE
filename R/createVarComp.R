@@ -43,6 +43,7 @@ print.varComp <- function(x,
 summary.varComp <- function(object,
                             ...) {
   engine <- object$engine
+  trait <- object$trait
   if (engine == "lme4") {
     ## Display model formula in text form.
     ## This might cut off the formula if it is longer than 500 character.
@@ -69,16 +70,23 @@ summary.varComp <- function(object,
     fullRandVC[["stdError"]] <- sprintf("%1.3f", fullRandVC[["stdError"]])
   }
   fullRandVC[["vcovPerc"]] <- sprintf("%1.2f %%", 100 * fullRandVC[["vcovPerc"]])
-  colnames(fullRandVC) <- c("component", if (engine == "asreml") "standard error",
-                            "% variance expl.")
-  ## Print ANOVA for fully fixed model with alternative header.
+  colnames(fullRandVC) <- c("Component", if (engine == "asreml") "SE",
+                            "% Variance expl.")
   aovFullFixedMod <- object$aovFullFixedMod
+  ## Construct fully fixed and fully random model formula from ANOVA.
+  modTerms <- rownames(aovFullFixedMod)[-nrow(aovFullFixedMod)]
+  fixModCall <- paste(trait, "~", paste0(modTerms, collapse = " + "))
+  randModCall <- paste(trait, "~",
+                       paste0("(1 | ", modTerms, ")", collapse = " + "))
+  ## Print ANOVA for fully fixed model with alternative header.
   attr(x = aovFullFixedMod, which = "heading") <-
-    "Analysis of Variance Table for fully fixed model"
+    paste("Analysis of Variance Table for fully fixed model:\n",
+          fixModCall, "\n")
   ## Print output.
-  cat("Fitted model formula\n")
-  cat(fitModCall, "\n\n")
-  cat("Sources of variation\n")
+  cat("Fitted model formula final mixed model\n\n")
+  cat("", fitModCall, "\n\n")
+  cat("Sources of variation for fully random model:\n")
+  cat("", randModCall, "\n\n")
   print(fullRandVC)
   cat("\n")
   print(aovFullFixedMod)
@@ -209,8 +217,10 @@ plot.varComp <- function(x,
 #' @param ... Not used.
 #' @param predictLevel A character string, the level at which prediction should
 #' be made. Either "genotype" for prediction at genotype level, "trial" for
-#' predictions at genotype x trial level or the variable used as nesting factor
-#' for predictions at the level of genotype x nestingFactor level.
+#' predictions at genotype x trial level, the variable used as nesting factor
+#' for predictions at the level of genotype x nestingFactor level, or one or
+#' more of the extra terms used in the model. E.g. c("region", "year") for a
+#' model fitted with \code{regionLocationYear = TRUE}.
 #'
 #' @return A data.frame with predictions.
 #'
@@ -233,32 +243,22 @@ plot.varComp <- function(x,
 #' @export
 predict.varComp <- function(object,
                             ...,
-                            predictLevel = c("genotype", "trial",
-                                             object$nestingFactor)) {
-  predictLevel <- match.arg(predictLevel)
+                            predictLevel = "genotype") {
   ## Extract fitted model and model data from object.
   fitMod <- object$fitMod
   modDat <- object$modDat
   ## Variables for environment depend on the fitted model.
   ## Either trial or location x year.
   if (object$useLocYear) {
-    envVars <- c("loc", "year")
+    predVars <- c("genotype", "trial", "loc", "year")
   } else if (object$useRegionLocYear) {
-    envVars <- c("region", "loc", "year")
+    predVars <- c("genotype", "trial", "region", "loc", "year")
   } else {
-    envVars <- "trial"
+    predVars <- c("genotype", "trial", object$nestingFactor)
   }
-  ## Construct vector of levels on which predictions should be made.
+  predLevels <- match.arg(predictLevel, choices = predVars, several.ok = TRUE)
   ## Always include genotype.
-  predLevels <- "genotype"
-  if (predictLevel == "trial") {
-    ## For predictLevel trial predict genotype x envVars.
-    predLevels <- c(predLevels, envVars)
-  } else if (!is.null(object$nestingFactor) &&
-             predictLevel == object$nestingFactor) {
-    ## For predictLevel nestingFactor predict genotype x nestingFactor variable.
-    predLevels <- c(predLevels, object$nestingFactor)
-  }
+  predLevels <- unique(c("genotype", predLevels))
   if (object$engine == "lme4") {
     ## Make predictions for all observations in the data.
     modDat[!is.na(modDat[[object$trait]]), "preds"] <- predict(fitMod)
@@ -327,14 +327,14 @@ vc <- function(varComp) {
     rownames(varcomps)[nrow(varcomps)] <- "residuals"
     modTermsRand <- modTerms[modTerms %in% rownames(varcomps)]
     varcomps <- varcomps[c(modTermsRand, "residuals"), "vcov", drop = FALSE]
-    colnames(varcomps) <- "component"
+    colnames(varcomps) <- "Component"
   } else if (varComp$engine == "asreml") {
     modTerms <- colnames(attr(x = terms(fitMod$call$random, keep.order = TRUE),
                               which = "factors"))
     varcomps <- summary(fitMod)$varcomp
     rownames(varcomps)[nrow(varcomps)] <- "residuals"
     varcomps <- varcomps[c(modTerms, "residuals"), c("component", "std.error")]
-    colnames(varcomps)[colnames(varcomps) == "std.error"] <- "stdError"
+    colnames(varcomps) <- c("Component", "SE")
   }
   return(varcomps)
 }
@@ -381,8 +381,8 @@ herit <- function(varComp) {
   ## Compute variance components.
   varcomps <- vc(varComp)
   ## Extract variance components for genotype and residual.
-  sigmaG <- varcomps["genotype", "component"]
-  sigmaRes <- varcomps["residual", "component"]
+  sigmaG <- varcomps["genotype", "Component"]
+  sigmaRes <- varcomps["residual", "Component"]
   ## Numerator is constructed by looping over all random model terms and
   ## Adding their share. It always includes sigmaG.
   numerator <- sigmaG
@@ -404,7 +404,7 @@ herit <- function(varComp) {
   })
   for (term in modTerms[-c(1, length(modTerms))]) {
     ## Get variance for current term.
-    sigmaTerm <- varcomps[term, "component"]
+    sigmaTerm <- varcomps[term, "Component"]
     ## Get variables in current term, exclude genotype (always the first var).
     termVars <- unlist(strsplit(x = term, split = ":"))[-1]
     ## Divide variance by product of #levels for all variables in current term.
@@ -459,7 +459,7 @@ CRDR <- function(varComp) {
   }
   if (is.null(varComp$nestingFactor) && isFALSE(varComp$useRegionLocYear)) {
     stop("CRDR can only be computed when a model is fitted with a nesting ",
-         "structure of when regions are included in the model.\n")
+         "structure or when regions are included in the model.\n")
   }
   H1 <- herit(varComp)
   ## Extract fitted model and model data.

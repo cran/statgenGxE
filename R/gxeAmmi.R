@@ -244,11 +244,12 @@ gxeAmmiHelp <- function(TD,
                    INDEX = TDYear[, c("genotype", "trial")], FUN = I)
       if (sum(is.na(y0)) / length(y0) > 0.3) {
         if (byYear) {
-          warning("More than 30% missing values for ", year, ".\n",
+          warning("More than 30% missing values for ", year,
+                  " in genotype x trial matrix.\n",
                   "Year ", year, "skipped.\n", call. =  FALSE)
           next
         } else {
-          stop("More than 30% missing values.\n")
+          stop("More than 30% missing values in genotype x trial matrix.\n")
         }
       }
       ## Actual imputation.
@@ -272,8 +273,9 @@ gxeAmmiHelp <- function(TD,
     ## Extract ANOVA table for linear model.
     aov <- anova(model)
     rownames(aov)[rownames(aov) == "genotype"] <- "Genotype"
-    rownames(aov)[rownames(aov) == "trial"] <- "Environment"
+    rownames(aov)[rownames(aov) == "trial"] <- "Trial"
     rownames(aov)[rownames(aov) == "Residuals"] <- "Interactions"
+    aov <- aov[c("Trial", if (!GGE) "Genotype", "Interactions"), ]
     ## Compute principal components.
     if (!is.null(nPC)) {
       ## nPC is given. Use this in principal components analysis.

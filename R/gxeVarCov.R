@@ -19,7 +19,7 @@
 #' | Model | Description | var(\eqn{g_{ij}}) | cov(\eqn{g_{ij}};\eqn{g_{ik}}) | Number of parameters|
 #' |:-----------|:-------------------|:------------|:------------|:-----------------|
 #' | identity | identity | \eqn{\sigma_G^2} | 0 | 1 |
-#' | cs | compound symmetry | \eqn{\sigma_G^2 + \sigma_{GE}^2$ | $\sigma_{GE}^2} | 2 |
+#' | cs | compound symmetry | \eqn{\sigma_G^2+\sigma_{GE}^2} | \eqn{\sigma_{GE}^2} | 2 |
 #' | diagonal | diagonal matrix (heteroscedastic) | \eqn{\sigma_{GE_j}^2} | 0 | \eqn{J} |
 #' | hcs | heterogeneous compound symmetry | \eqn{\sigma_G^2+\sigma_{GE_j}^2} | \eqn{\sigma_G^2} | \eqn{J+1} |
 #' | outside | heterogeneity outside | \eqn{\sigma_{G_j}^2} | \eqn{\theta} | \eqn{J+1} |
@@ -43,6 +43,7 @@
 #' Either "lme4" or "asreml".
 #' @param criterion A string specifying a goodness-of-fit criterion. Either
 #' "AIC" or "BIC".
+#' @param models A character vector specifying the models to be fitted.
 #' @param ... Further arguments to be passed to the modeling engine.
 #'
 #' @note If \code{engine = "lme4"}, only the compound symmetry model can be
@@ -92,6 +93,8 @@
 gxeVarCov <- function(TD,
                       trials = names(TD),
                       trait,
+                      models = c("identity", "cs", "diagonal", "hcs", "outside",
+                                 "fa", "fa2", "unstructured"),
                       engine = c("lme4", "asreml"),
                       criterion = c("BIC", "AIC"),
                       ...) {
@@ -106,6 +109,16 @@ gxeVarCov <- function(TD,
   chkCol("genotype", TDTot)
   engine <- match.arg(engine)
   criterion <- match.arg(criterion)
+  models <- match.arg(models, several.ok = TRUE)
+
+  if (engine == "asreml") {
+    choices <- models
+  } else {
+    if (!"cs" %in% models) {
+      stop("With lme4 only compound symmetry (cs) model can be fitted.\n")
+    }
+    choices <- "cs"
+  }
   TDTot <- droplevels(TDTot)
   ## Increase maximum number of iterations for asreml. Needed for more complex
   ## designs to converge.
@@ -115,12 +128,6 @@ gxeVarCov <- function(TD,
   TD0 <- expand.grid(genotype = levels(TDTot[["genotype"]]),
                      trial = levels(TDTot[["trial"]]))
   TDTot <- merge(TD0, TDTot, all.x = TRUE)
-  if (engine == "asreml") {
-    choices <- c("identity", "cs", "diagonal", "hcs", "outside", "fa", "fa2",
-                 "unstructured")
-  } else {
-    choices <- "cs"
-  }
   ## Create matrix for storing results.
   bestTab <- matrix(nrow = length(choices), ncol = 4,
                     dimnames = list(choices,
@@ -301,7 +308,7 @@ gxeVarCov <- function(TD,
           bestTab[choice, "NParameters"] <- nPar
         }
       } # End loop over choices
-      bestTab <- bestTab[order(bestTab[, criterion]), ]
+      bestTab <- bestTab[order(bestTab[, criterion]), , drop = FALSE]
       bestModel <- models[[rownames(bestTab)[1]]]
       bestPred <- predictAsreml(model = bestModel, classify = "trial",
                                 TD = TDTot, maxiter = maxIter, ...)
