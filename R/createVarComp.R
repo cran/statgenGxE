@@ -174,10 +174,12 @@ plot.varComp <- function(x,
   ## The idea is to annotate the y-axis just left of the x = 0.
   annoPosX <- -max(fullRandVC[[plotVar]]) / 5e5
   p <- ggplot2::ggplot(fullRandVC,
-                       ggplot2::aes_string(x = plotVar, y = "term")) +
+                       ggplot2::aes(x = .data[[plotVar]],
+                                    y = .data[["term"]])) +
     ggplot2::geom_point(na.rm = TRUE, size = 2) +
     ## Add line from y-axis to points.
-    ggplot2::geom_segment(ggplot2::aes_string(xend = plotVar, yend = "term"),
+    ggplot2::geom_segment(ggplot2::aes(xend = .data[[plotVar]],
+                                       yend = .data[["term"]]),
                           x = 0) +
     ggplot2::scale_x_continuous(expand = ggplot2::expansion(mult = c(0, 0.05))) +
     ## Set lower xlim to 0. This assures 0 is always displayed on the x-axis
@@ -526,17 +528,14 @@ CRDR <- function(varComp) {
 #'
 #' Compute three types of correlations for models fitted with a nesting factor.
 #' \itemize{
-#' \item{correlation between scenarios or environment types:
+#' \item correlation between scenarios or environment types:
 #' \deqn{\sigma_G^2 / (\sigma_G^2 + \sigma_{GS}^2)}
-#' }
-#' \item{correlation between trials within scenarios or environment types:
+#' \item correlation between trials within scenarios or environment types:
 #' \deqn{(\sigma_G^2 + \sigma_{GS}^2) / (\sigma_G^2 + \sigma_{GS}^2 +
 #' \sigma_E^2)}
-#' }
-#' \item{correlation between trials that belong to different
+#' \item correlation between trials that belong to different
 #' scenarios/environment types:
 #' \deqn{\sigma_G^2 / (\sigma_G^2 + \sigma_{GS}^2 + \sigma_E^2)}
-#' }
 #' }
 #' In these formulas the \eqn{\sigma} terms stand for the standard deviations of
 #' the respective model terms. So \eqn{\sigma_S} is the standard deviation for
