@@ -1,6 +1,6 @@
-365641cddbd92d5e31b4c15b0e687d6d *DESCRIPTION
+083573d4a3b3926c88f30ad8b0f6d24b *DESCRIPTION
 2cd6b2dc40f73a91742cfcd73c671b9d *NAMESPACE
-325010a7efd2f52d7368935aa206885c *NEWS.md
+be952b19ddca10dfe87fca3643eb2eea *NEWS.md
 80a0836a3d863feb788ef8680c73e957 *R/chkFuncs.R
 d6698fc39b90aaf2b3a0586ffe8c34ca *R/createAMMI.R
 ec9cfbf40cad91c6bb30b3bf25d48d3c *R/createFW.R
@@ -21,13 +21,13 @@ b8e7404c1780ff8dfe72b6ab8b3d5846 *R/statgenGxE.R
 1bc153c67896f126079431b2c2d81656 *R/sysdata.rda
 0b704dbcf1b7b31d785bdb7b4f588277 *R/utils.R
 ce90a4a0b4d4ad079302c18ddb7bb963 *README.md
-b943a1546a1e17be4eea235ec7b4616b *build/partial.rdb
-5d10b2f75892961bbbd9bc12b7b2b485 *build/vignette.rds
+24bc7c3f5a645905c53152bd3d0b8f61 *build/partial.rdb
+ddc2b926285f7e2dd3bc2ffc097853af *build/vignette.rds
 e2770d3bf0ba9b0e4e4272c4d057bedc *data/TDMaize.rda
 33efea5d9a898044b07d58152c3d2625 *data/dropsPheno.rda
 ce638a8e9dcc63219457aa1fcd08a47a *inst/doc/statgenGxE.R
 be6fff08b5d8b82aa009b5feac1da549 *inst/doc/statgenGxE.Rmd
-c40d7d8085fc5b67e3458b9403034a60 *inst/doc/statgenGxE.html
+30b84cdd908ab4692c8f937459834406 *inst/doc/statgenGxE.html
 63e09ec1dd71c400df089383a8bb628e *inst/extdata/8-Info_Maize_variety.csv
 719bad394fae7b212dfe1e04027d850d *inst/extdata/F2maize_pheno.csv
 5f817b416ae9fd43c375ca195749f423 *inst/extdata/grainYield_components_BLUEs.zip
@@ -77,7 +77,7 @@ cf3a3bbb6c3ff11647eaabde72283819 *man/stability.Rd
 c17909e0448e676d80d1f0e6b78403b1 *man/varCov.Rd
 2096d394c9ebfcb228d0085be30a9f14 *man/vc.Rd
 808f8d213298d3578e2d1fbbfb1f8642 *tests/testthat.R
-3d050694b1e9e6182f198cc15044c862 *tests/testthat/Rplots.pdf
+b19fa6a560674cf836e0d5a1ecf87943 *tests/testthat/Rplots.pdf
 95ddf3013873773777cd4c8c9acd1dd9 *tests/testthat/test-gxeAmmi.R
 7458979decc334614612b6de02aa82a9 *tests/testthat/test-gxeFW.R
 0b220fa52c3c18d8808db76e18075937 *tests/testthat/test-gxeMegaEnv.R
@@ -85,7 +85,7 @@ f2c7cbff9bb39904bb7d25157389f22b *tests/testthat/test-gxeStability.R
 5c5da1bda0717a02f852b67d7411ac91 *tests/testthat/test-gxeVarComp.R
 c1225ad954cf0fe9eb7de3ef08966ec1 *tests/testthat/test-gxeVarCov.R
 430a156b864830cd7a5f73123ca4fd92 *tests/testthat/test-multMissing.R
-cf7cc6e74374197d8753c3e124a6af96 *tests/testthat/test-plots.R
+dbceca38ad88395fdfe73354cf557748 *tests/testthat/test-plots.R
 1a8b7deecbc5979ab0e41a91189fcdfc *tests/testthat/test-report.R
 bcc8be32e6fb60e1a6997410e99d709c *tests/testthat/test-summaries.R
 fe6055ee9d477d2bdd025854eda4aad9 *tests/testthat/test-utils.R
