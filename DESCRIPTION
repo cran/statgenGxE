@@ -1,8 +1,8 @@
 Package: statgenGxE
 Type: Package
 Title: Genotype by Environment (GxE) Analysis
-Version: 1.0.8
-Date: 2024-5-6
+Version: 1.0.9
+Date: 2024-09-17
 Authors@R: c(person(given = "Bart-Jan", 
                     family = "van Rossum", 
                     email = "bart-jan.vanrossum@wur.nl", 
@@ -54,11 +54,11 @@ Description: Analysis of multi environment data of plant breeding experiments
     typical plant breeding experiments developed by Biometris.
     Some functions have been created to be used in conjunction with the R 
     package 'asreml' for the 'ASReml' software, which can be obtained upon 
-    purchase from 'VSN' international (<https://vsni.co.uk/software/asreml-r>).
+    purchase from 'VSN' international (<https://vsni.co.uk/software/asreml-r/>).
 License: GPL
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Depends: R (>= 3.3)
 Imports: emmeans, ggplot2 (>= 3.3.0), gridExtra, knitr, lme4, methods,
         rlang, statgenSTA (>= 1.0.6), xtable
@@ -69,7 +69,7 @@ URL: https://biometris.github.io/statgenGxE/index.html,
         https://github.com/Biometris/statgenGxE/
 BugReports: https://github.com/Biometris/statgenGxE/issues
 NeedsCompilation: no
-Packaged: 2024-05-06 09:43:49 UTC; rossu027
+Packaged: 2024-09-18 06:25:50 UTC; rossu027
 Author: Bart-Jan van Rossum [aut, cre],
   Fred van Eeuwijk [ctb] (<https://orcid.org/0000-0003-3672-2921>),
   Martin Boer [ctb],
@@ -83,4 +83,4 @@ Author: Bart-Jan van Rossum [aut, cre],
   Choazhi Zheng [ctb] (<https://orcid.org/0000-0001-6030-3933>)
 Maintainer: Bart-Jan van Rossum <bart-jan.vanrossum@wur.nl>
 Repository: CRAN
-Date/Publication: 2024-05-06 10:10:02 UTC
+Date/Publication: 2024-09-18 07:10:03 UTC
