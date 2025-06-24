@@ -17,6 +17,7 @@ createVarComp <- function(fitMod,
                           fullRandVC,
                           aovFullFixedMod,
                           engine,
+                          confoundVars,
                           diagTabs) {
   varComp <- structure(list(fitMod = fitMod,
                             modDat = modDat,
@@ -27,6 +28,7 @@ createVarComp <- function(fitMod,
                             fullRandVC = fullRandVC,
                             aovFullFixedMod = aovFullFixedMod,
                             engine = engine,
+                            confoundVars = confoundVars,
                             diagTabs = diagTabs),
                        class = "varComp")
   attr(varComp, which = "timestamp") <- Sys.time()
@@ -108,7 +110,7 @@ summary.varComp <- function(object,
 #' @param output Should the plot be output to the current device? If
 #' \code{FALSE} only a ggplot object is invisibly returned.
 #'
-#' @return A ggplot object is invisibly returned.
+#' @returns A ggplot object is invisibly returned.
 #'
 #' @examples
 #' ## Fit a mixed model.
@@ -224,7 +226,7 @@ plot.varComp <- function(x,
 #' more of the extra terms used in the model. E.g. c("region", "year") for a
 #' model fitted with \code{regionLocationYear = TRUE}.
 #'
-#' @return A data.frame with predictions.
+#' @returns A data.frame with predictions.
 #'
 #' @examples
 #' ## Fit a mixed model.
@@ -299,7 +301,7 @@ predict.varComp <- function(object,
 #'
 #' @param varComp An object of class varComp.
 #'
-#' @return A data.frame with variance components and standard errors for
+#' @returns A data.frame with variance components and standard errors for
 #' the random components in the fitted model.
 #'
 #' @examples
@@ -333,9 +335,8 @@ vc <- function(varComp) {
   } else if (varComp$engine == "asreml") {
     modTerms <- colnames(attr(x = terms(fitMod$call$random, keep.order = TRUE),
                               which = "factors"))
-    varcomps <- summary(fitMod)$varcomp
-    rownames(varcomps)[nrow(varcomps)] <- "residuals"
-    varcomps <- varcomps[c(modTerms, "residuals"), c("component", "std.error")]
+    varcomps <- varComp$fullRandVC[c(modTerms, "residuals"),
+                                   c("vcov", "stdError")]
     colnames(varcomps) <- c("Component", "SE")
   }
   return(varcomps)
@@ -343,11 +344,11 @@ vc <- function(varComp) {
 
 #' Calculate heritability
 #'
-#' Calculate the heritability based on the fitted model. The heritability is
-#' calculated as described by Atlin et al. E.g. for a model with trials nested
-#' within locations, which has a random part that looks like this: genotype +
-#' genotype:location + genotype:location:trial the heritability is computed
-#' as\cr\cr
+#' Calculate the heritability based on the fitted model. For balanced data, the
+#' heritability is calculated as described by Atlin et al. E.g. for a model
+#' with trials nested within locations, which has a random part that looks like
+#' this: genotype + genotype:location + genotype:location:trial the
+#' heritability is computed as\cr\cr
 #' \deqn{\sigma_G^2 / (\sigma_G^2 + \sigma_L^2 / l + \sigma_{LT}^2 / lt +
 #' \sigma_E^2 / ltr)}
 #' In this formula the \eqn{\sigma} terms stand for the standard deviations of
@@ -355,7 +356,12 @@ vc <- function(varComp) {
 #' levels for the respective model terms. So \eqn{\sigma_L} is the standard
 #' deviation for the location term in the model and \eqn{l} is the number of
 #' locations. \eqn{\sigma_E} corresponds to the residual standard deviation and
-#' \eqn{r} to the number of replicates.
+#' \eqn{r} to the number of replicates.\cr\cr
+#' When the data is unbalanced a more general form of this formula is used as
+#' described in Holland et al. Here the numerator \eqn{l} is replaced by the
+#' harmonic means of the number of locations across genotypes. The other
+#' numerators are replaced correspondingly. For balanced data this more general
+#' form gives identical results as the form described by Atlin et al.
 #'
 #' @param varComp An object of class varComp.
 #'
@@ -371,6 +377,9 @@ vc <- function(varComp) {
 #' @references Atlin, G. N., Baker, R. J., McRae, K. B., & Lu, X. (2000).
 #' Selection response in subdivided target regions. Crop Science, 40(1), 7–13.
 #' \doi{10.2135/cropsci2000.4017}
+#' @references Holland, J.B., W.E. Nyquist, and C.T. Cervantes-Martínez. (2003).
+#' Estimating and interpreting heritability for plant breeding: An update.
+#' Plant Breed. Rev. 2003:9–112. \doi{10.1002/9780470650202.ch2}
 #'
 #' @export
 herit <- function(varComp) {
@@ -380,6 +389,7 @@ herit <- function(varComp) {
   ## Extract fitted model and model data.
   fitMod <- varComp$fitMod
   modDat <- varComp$modDat
+  confoundVars <- varComp$confoundVars
   ## Compute variance components.
   varcomps <- vc(varComp)
   ## Extract variance components for genotype and residual.
@@ -388,6 +398,7 @@ herit <- function(varComp) {
   ## Numerator is constructed by looping over all random model terms and
   ## Adding their share. It always includes sigmaG.
   numerator <- sigmaG
+  nGeno <- nlevels(modDat[["genotype"]])
   ## Get the terms used in the random part of the model.
   modTerms <- rownames(varcomps)
   ## Extract all variables used in the random part of the model.
@@ -400,6 +411,9 @@ herit <- function(varComp) {
     modVars <- rownames(attr(x = terms(fitMod$call$random),
                              which = "factors"))[-1]
   }
+  ## Add confounding variable to modVars for ease of computations.
+  ## This assures division is done by the correct number for the residual.
+  modVars <- unique(c(modVars, confoundVars))
   ## Get median number for times genotypes are tested within modVars.
   nLevModVars <- sapply(X = modVars, FUN = function(modVar) {
     median(rowSums(table(modDat[["genotype"]], modDat[[modVar]]) > 0))
@@ -407,18 +421,20 @@ herit <- function(varComp) {
   for (term in modTerms[-c(1, length(modTerms))]) {
     ## Get variance for current term.
     sigmaTerm <- varcomps[term, "Component"]
-    ## Get variables in current term, exclude genotype (always the first var).
-    termVars <- unlist(strsplit(x = term, split = ":"))[-1]
+    ## Get variables in current term.
+    termVars <- unlist(strsplit(x = term, split = ":"))
     ## Divide variance by product of #levels for all variables in current term.
     ## Add that to numerator.
-    numerator <- numerator + sigmaTerm / prod(nLevModVars[termVars])
+    numerator <- numerator + sigmaTerm / (
+      nGeno / sum(1 / rowSums(table(modDat[termVars]) > 0)))
   }
   nReps <- median(table(modDat[["genotype"]], modDat[["trial"]]))
   if (length(modVars) > 0) {
     ## Contribution for residual variance is computed by dividing sigmaRes by
     ## product of #levels of all variables in random part of model and
     ## #replicates.
-    numerator <- numerator + sigmaRes / prod(nLevModVars, nReps)
+    numerator <- numerator + sigmaRes / (
+      nReps * nGeno / sum(1 / rowSums(table(modDat[c("genotype", modVars)]) > 0)))
   } else {
     ## No other variables in random part.
     ## Just divide sigmaRes by #replicates.
@@ -476,9 +492,9 @@ CRDR <- function(varComp) {
   ## Compute variance components.
   varcomps <- vc(varComp)
   ## Extract variance components for genotype, H2factor and residual.
-  sigmaG <- varcomps["genotype", "component"]
-  sigmaH2 <- varcomps[H2factor, "component"]
-  sigmaRes <- varcomps["residual", "component"]
+  sigmaG <- varcomps["genotype", "Component"]
+  sigmaH2 <- varcomps[H2factor, "Component"]
+  sigmaRes <- varcomps["residual", "Component"]
   ## Numerator is constructed by looping over all random model terms and
   ## Adding their share. It always includes sigmaG and sigmaH2.
   numerator <- sigmaG + sigmaH2
@@ -501,7 +517,7 @@ CRDR <- function(varComp) {
   H2factorPos <- which(modTerms == H2factor)
   for (term in modTerms[-c(1, H2factorPos, length(modTerms))]) {
     ## Get variance for current term.
-    sigmaTerm <- varcomps[term, "component"]
+    sigmaTerm <- varcomps[term, "Component"]
     ## Get variables in current term, exclude genotype (always the first var).
     termVars <- unlist(strsplit(x = term, split = ":"))[-1]
     ## Divide variance by product of #levels for all variables in current term.
@@ -545,7 +561,7 @@ CRDR <- function(varComp) {
 #'
 #' @inheritParams herit
 #'
-#' @return A list with three correlations.
+#' @returns A list with three correlations.
 #'
 #' @family Mixed model analysis
 #'
@@ -563,9 +579,9 @@ correlations <- function(varComp) {
   }
   ## Compute variance components.
   varComps <- vc(varComp)
-  varGeno <- varComps["genotype", "component"]
-  varCorFactor <- varComps[corFactor, "component"]
-  varRes <- varComps["residuals", "component"]
+  varGeno <- varComps["genotype", "Component"]
+  varCorFactor <- varComps[corFactor, "Component"]
+  varRes <- varComps["residuals", "Component"]
   ## Compute correlation between scenarios.
   rScen <- varGeno / (varGeno + varCorFactor)
   ## Compute correlation between trials within scenarios.
@@ -583,7 +599,7 @@ correlations <- function(varComp) {
 #'
 #' @param varComp An object of class varComp.
 #'
-#' @return A list of tables is invisibly returned.
+#' @returns A list of tables is invisibly returned.
 #'
 #' @examples
 #' ## Fit a mixed model.

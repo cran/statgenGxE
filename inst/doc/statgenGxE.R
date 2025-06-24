@@ -33,30 +33,30 @@ plot(dropsTD, plotType = "scatter", traits = "grain.yield", colorGenoBy = "genet
                     "Mur13R", "Ner12R", "Cam12R", "Cra12R"))
 
 ## ----colorOpts, eval=FALSE--------------------------------------------------------------
-#  ## Set default colors for genotypes and trials.
-#  options("statgen.genoColors" = c("blue", "green", "yellow"))
-#  options("statgen.trialColors" = c("red", "brown", "purple"))
+# ## Set default colors for genotypes and trials.
+# options("statgen.genoColors" = c("blue", "green", "yellow"))
+# options("statgen.trialColors" = c("red", "brown", "purple"))
 
-## ----geVarComp, message=FALSE, eval='requireNamespace("Matrix)&&packageVersion("Matrix")>"1.3.0"'----
+## ----geVarComp, message=FALSE, eval='requireNamespace("Matrix")&&packageVersion("Matrix")>"1.3.0"'----
 ## Fit a model where trials are nested within scenarios.
 dropsVarComp <- gxeVarComp(TD = dropsTD, trait = "grain.yield", nestingFactor = "scenarioFull")
 summary(dropsVarComp)
 
 ## ----diag, eval=FALSE-------------------------------------------------------------------
-#  ## Print diagnostics - output suppressed because of the large number of rows.
-#  diagnostics(dropsVarComp)
+# ## Print diagnostics - output suppressed because of the large number of rows.
+# diagnostics(dropsVarComp)
 
-## ----vcHerit, R.options=list(digits=4), eval='requireNamespace("Matrix)&&packageVersion("Matrix")>"1.3.0"'----
+## ----vcHerit, R.options=list(digits=4), eval='requireNamespace("Matrix")&&packageVersion("Matrix")>"1.3.0"'----
 ## Extract variance components.
 vc(dropsVarComp)
 ## Compute heritability.
 herit(dropsVarComp)
 
-## ----VarCompPlot, eval='requireNamespace("Matrix)&&packageVersion("Matrix")>"1.3.0"'----
+## ----VarCompPlot, eval='requireNamespace("Matrix")&&packageVersion("Matrix")>"1.3.0"'----
 ## Plot the results of the fitted model.
 plot(dropsVarComp)
 
-## ----predict, R.options=list(digits=4), eval='requireNamespace("Matrix)&&packageVersion("Matrix")>"1.3.0"'----
+## ----predict, R.options=list(digits=4), eval='requireNamespace("Matrix")&&packageVersion("Matrix")>"1.3.0"'----
 ## Predictions of the genotype main effect.
 predGeno <- predict(dropsVarComp)
 head(predGeno)
@@ -213,20 +213,20 @@ ggplot2::ggplot(fitResFW, ggplot2::aes(x = fittedValue, y = residual,
 
 
 ## ----reports, eval=FALSE----------------------------------------------------------------
-#  ## Create a report for the Finlay Wilkinson analysis.
-#  report(dropsFW, outfile = "./myReports/FWReport.pdf")
-#  
-#  ## Create a report for the AMMI analysis.
-#  report(dropsAm, outfile = "./myReports/AMMIReport.pdf")
-#  
-#  ## Create a report for the GGE analysis.
-#  report(dropsGGE, outfile = "./myReports/GGEReport.pdf")
-#  
-#  ## Create a report for the stability analysis.
-#  report(dropsStab, outfile = "./myReports/stabReport.pdf")
-#  
-#  ## Create a report for the analysis of two-way GxE tables.
-#  report(dropsVC2, outfile = "./myReports/varCompReport.pdf")
+# ## Create a report for the Finlay Wilkinson analysis.
+# report(dropsFW, outfile = "./myReports/FWReport.pdf")
+# 
+# ## Create a report for the AMMI analysis.
+# report(dropsAm, outfile = "./myReports/AMMIReport.pdf")
+# 
+# ## Create a report for the GGE analysis.
+# report(dropsGGE, outfile = "./myReports/GGEReport.pdf")
+# 
+# ## Create a report for the stability analysis.
+# report(dropsStab, outfile = "./myReports/stabReport.pdf")
+# 
+# ## Create a report for the analysis of two-way GxE tables.
+# report(dropsVC2, outfile = "./myReports/varCompReport.pdf")
 
 ## ----winddown, include = FALSE------------------------------------------------
 options(op)

@@ -56,7 +56,7 @@
 #' @param diagnostics Should diagnostics on missing combinations of model
 #' variables be printed?
 #'
-#' @return An object of class \code{varComp}, a list containing:
+#' @returns An object of class \code{varComp}, a list containing:
 #' \item{fitMod}{The fitted model.}
 #' \item{modDat}{A data.frame containing the data used when fitting the model.}
 #' \item{nestingFactor}{A name of the variable used as nesting variable in the
@@ -155,8 +155,11 @@ gxeVarComp <- function(TD,
   ## residual and therefore left out of the model.
   if (hasReps) { #} || useWt) {
     randTermIncl <- fixedTerms
+    confoundVars <- NULL
   } else {
-    randTermIncl <- fixedTerms[-length(fixedTerms)]
+    confoundTerm <- tail(fixedTerms, 1)
+    randTermIncl <- fixedTerms[!fixedTerms == confoundTerm]
+    confoundVars <- unlist(strsplit(x = confoundTerm, split = ":"))
   }
   randTerms <- c("genotype",
                  if (length(randTermIncl) > 0) paste0("genotype:", randTermIncl))
@@ -359,6 +362,7 @@ gxeVarComp <- function(TD,
                        useRegionLocYear = regionLocationYear,
                        fullRandVC = fullRandVC,
                        aovFullFixedMod = aovFullFixedMod, engine = engine,
+                       confoundVars = confoundVars,
                        diagTabs = diagTabs)
   return(res)
 }

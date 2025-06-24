@@ -1,8 +1,8 @@
 Package: statgenGxE
 Type: Package
 Title: Genotype by Environment (GxE) Analysis
-Version: 1.0.9
-Date: 2024-09-17
+Version: 1.0.10
+Date: 2025-06-24
 Authors@R: c(person(given = "Bart-Jan", 
                     family = "van Rossum", 
                     email = "bart-jan.vanrossum@wur.nl", 
@@ -69,18 +69,19 @@ URL: https://biometris.github.io/statgenGxE/index.html,
         https://github.com/Biometris/statgenGxE/
 BugReports: https://github.com/Biometris/statgenGxE/issues
 NeedsCompilation: no
-Packaged: 2024-09-18 06:25:50 UTC; rossu027
+Packaged: 2025-06-24 12:30:11 UTC; rossu027
 Author: Bart-Jan van Rossum [aut, cre],
-  Fred van Eeuwijk [ctb] (<https://orcid.org/0000-0003-3672-2921>),
+  Fred van Eeuwijk [ctb] (ORCID: <https://orcid.org/0000-0003-3672-2921>),
   Martin Boer [ctb],
-  Marcos Malosetti [ctb] (<https://orcid.org/0000-0002-8150-1397>),
-  Daniela Bustos-Korts [ctb] (<https://orcid.org/0000-0003-3827-6726>),
-  Emilie J Millet [ctb] (<https://orcid.org/0000-0002-2913-4892>),
-  Joao Paulo [ctb] (<https://orcid.org/0000-0002-4180-0763>),
-  Maikel Verouden [ctb] (<https://orcid.org/0000-0002-4893-3323>),
-  Willem Kruijer [ctb] (<https://orcid.org/0000-0001-7179-1733>),
-  Ron Wehrens [ctb] (<https://orcid.org/0000-0002-8798-5599>),
-  Choazhi Zheng [ctb] (<https://orcid.org/0000-0001-6030-3933>)
+  Marcos Malosetti [ctb] (ORCID: <https://orcid.org/0000-0002-8150-1397>),
+  Daniela Bustos-Korts [ctb] (ORCID:
+    <https://orcid.org/0000-0003-3827-6726>),
+  Emilie J Millet [ctb] (ORCID: <https://orcid.org/0000-0002-2913-4892>),
+  Joao Paulo [ctb] (ORCID: <https://orcid.org/0000-0002-4180-0763>),
+  Maikel Verouden [ctb] (ORCID: <https://orcid.org/0000-0002-4893-3323>),
+  Willem Kruijer [ctb] (ORCID: <https://orcid.org/0000-0001-7179-1733>),
+  Ron Wehrens [ctb] (ORCID: <https://orcid.org/0000-0002-8798-5599>),
+  Choazhi Zheng [ctb] (ORCID: <https://orcid.org/0000-0001-6030-3933>)
 Maintainer: Bart-Jan van Rossum <bart-jan.vanrossum@wur.nl>
 Repository: CRAN
-Date/Publication: 2024-09-18 07:10:03 UTC
+Date/Publication: 2025-06-24 13:30:02 UTC
