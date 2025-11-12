@@ -18,12 +18,12 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Bart-Jan van Rossum \email{bart-jan.vanrossum@wur.nl}
+\strong{Maintainer}: Bart-Jan van Rossum \email{bart-jan.vanrossum@wur.nl} (\href{https://orcid.org/0000-0002-8673-2514}{ORCID})
 
 Other contributors:
 \itemize{
   \item Fred van Eeuwijk (\href{https://orcid.org/0000-0003-3672-2921}{ORCID}) [contributor]
-  \item Martin Boer [contributor]
+  \item Martin Boer (\href{https://orcid.org/0000-0002-1879-4588}{ORCID}) [contributor]
   \item Marcos Malosetti (\href{https://orcid.org/0000-0002-8150-1397}{ORCID}) [contributor]
   \item Daniela Bustos-Korts (\href{https://orcid.org/0000-0003-3827-6726}{ORCID}) [contributor]
   \item Emilie J Millet (\href{https://orcid.org/0000-0002-2913-4892}{ORCID}) [contributor]
@@ -32,6 +32,8 @@ Other contributors:
   \item Willem Kruijer (\href{https://orcid.org/0000-0001-7179-1733}{ORCID}) [contributor]
   \item Ron Wehrens (\href{https://orcid.org/0000-0002-8798-5599}{ORCID}) [contributor]
   \item Choazhi Zheng (\href{https://orcid.org/0000-0001-6030-3933}{ORCID}) [contributor]
+  \item Turbet Delof Michel [contributor]
+  \item Rameau Jean-Francois [contributor]
 }
 
 }

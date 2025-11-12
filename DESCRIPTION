@@ -1,19 +1,21 @@
 Package: statgenGxE
 Type: Package
 Title: Genotype by Environment (GxE) Analysis
-Version: 1.0.10
-Date: 2025-06-24
+Version: 1.0.11
+Date: 2025-11-12
 Authors@R: c(person(given = "Bart-Jan", 
                     family = "van Rossum", 
                     email = "bart-jan.vanrossum@wur.nl", 
-                    role = c("aut", "cre")),
+                    role = c("aut", "cre"),
+                    comment = c(ORCID = "0000-0002-8673-2514")),
              person(given = "Fred", 
                     family = "van Eeuwijk",
                     role = "ctb",
                     comment = c(ORCID = "0000-0003-3672-2921")),
              person(given = "Martin", 
                     family = "Boer",
-                    role = "ctb"),
+                    role = "ctb",
+                    comment = c(ORCID = "0000-0002-1879-4588")),
              person(given = "Marcos",
                     family = "Malosetti",
                     role = "ctb",
@@ -45,7 +47,13 @@ Authors@R: c(person(given = "Bart-Jan",
              person(given = "Choazhi", 
                     family = "Zheng",
                     role = "ctb",
-                    comment = c(ORCID = "0000-0001-6030-3933"))
+                    comment = c(ORCID = "0000-0001-6030-3933")),
+             person(given = "Turbet Delof", 
+                    family = "Michel",
+                    role = "ctb"),
+             person(given = "Rameau", 
+                    family = "Jean-Francois",
+                    role = "ctb")      
             )
 Description: Analysis of multi environment data of plant breeding experiments
     following the analyses described in Malosetti, Ribaut, 
@@ -58,7 +66,7 @@ Description: Analysis of multi environment data of plant breeding experiments
 License: GPL
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Depends: R (>= 3.3)
 Imports: emmeans, ggplot2 (>= 3.3.0), gridExtra, knitr, lme4, methods,
         rlang, statgenSTA (>= 1.0.6), xtable
@@ -69,10 +77,11 @@ URL: https://biometris.github.io/statgenGxE/index.html,
         https://github.com/Biometris/statgenGxE/
 BugReports: https://github.com/Biometris/statgenGxE/issues
 NeedsCompilation: no
-Packaged: 2025-06-24 12:30:11 UTC; rossu027
-Author: Bart-Jan van Rossum [aut, cre],
+Packaged: 2025-11-12 08:59:30 UTC; rossu027
+Author: Bart-Jan van Rossum [aut, cre] (ORCID:
+    <https://orcid.org/0000-0002-8673-2514>),
   Fred van Eeuwijk [ctb] (ORCID: <https://orcid.org/0000-0003-3672-2921>),
-  Martin Boer [ctb],
+  Martin Boer [ctb] (ORCID: <https://orcid.org/0000-0002-1879-4588>),
   Marcos Malosetti [ctb] (ORCID: <https://orcid.org/0000-0002-8150-1397>),
   Daniela Bustos-Korts [ctb] (ORCID:
     <https://orcid.org/0000-0003-3827-6726>),
@@ -81,7 +90,9 @@ Author: Bart-Jan van Rossum [aut, cre],
   Maikel Verouden [ctb] (ORCID: <https://orcid.org/0000-0002-4893-3323>),
   Willem Kruijer [ctb] (ORCID: <https://orcid.org/0000-0001-7179-1733>),
   Ron Wehrens [ctb] (ORCID: <https://orcid.org/0000-0002-8798-5599>),
-  Choazhi Zheng [ctb] (ORCID: <https://orcid.org/0000-0001-6030-3933>)
+  Choazhi Zheng [ctb] (ORCID: <https://orcid.org/0000-0001-6030-3933>),
+  Turbet Delof Michel [ctb],
+  Rameau Jean-Francois [ctb]
 Maintainer: Bart-Jan van Rossum <bart-jan.vanrossum@wur.nl>
 Repository: CRAN
-Date/Publication: 2025-06-24 13:30:02 UTC
+Date/Publication: 2025-11-12 09:20:02 UTC

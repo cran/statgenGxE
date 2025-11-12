@@ -12,7 +12,7 @@
 
 <meta name="author" content="Bart-Jan van Rossum" />
 
-<meta name="date" content="2025-06-24" />
+<meta name="date" content="2025-11-12" />
 
 <title>Genotype by Environment analysis using statgenGxE</title>
 
@@ -50,8 +50,9 @@ overflow: visible;
 }
 </style>
 <style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -62,7 +63,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
 { counter-reset: source-line 0; }
@@ -364,7 +365,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h1 class="title toc-ignore">Genotype by Environment analysis using
 statgenGxE</h1>
 <h4 class="author">Bart-Jan van Rossum</h4>
-<h4 class="date">2025-06-24</h4>
+<h4 class="date">2025-11-12</h4>
 
 
 
@@ -640,22 +641,22 @@ specified by the parameter <code>predictLevel</code>.</p>
 <span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>predGeno <span class="ot">&lt;-</span> <span class="fu">predict</span>(dropsVarComp)</span>
 <span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="fu">head</span>(predGeno)</span>
 <span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co">#&gt;   genotype predictedValue</span></span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="co">#&gt; 1    11430          6.725</span></span>
-<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="co">#&gt; 2       A3          6.319</span></span>
-<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co">#&gt; 3     A310          5.722</span></span>
-<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="co">#&gt; 4     A347          5.576</span></span>
-<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co">#&gt; 5     A374          7.470</span></span>
-<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="co">#&gt; 6     A375          6.650</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="co">#&gt; 1    11430          6.740</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="co">#&gt; 2       A3          6.368</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co">#&gt; 3     A310          5.821</span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="co">#&gt; 4     A347          5.688</span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co">#&gt; 5     A374          7.422</span></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="co">#&gt; 6     A375          6.671</span></span>
 <span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="do">## predictions at the level of genotype x scenarioFull.</span></span>
 <span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a>predGenoTrial <span class="ot">&lt;-</span> <span class="fu">predict</span>(dropsVarComp, <span class="at">predictLevel =</span> <span class="st">&quot;scenarioFull&quot;</span>)</span>
 <span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="fu">head</span>(predGenoTrial)</span>
 <span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="co">#&gt;   genotype scenarioFull predictedValue</span></span>
-<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a><span class="co">#&gt; 1    11430      WW.Cool         10.681</span></span>
-<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a><span class="co">#&gt; 2       A3      WW.Cool          9.504</span></span>
-<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a><span class="co">#&gt; 3     A310      WW.Cool          9.793</span></span>
-<span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a><span class="co">#&gt; 4     A347      WW.Cool          8.751</span></span>
-<span id="cb10-19"><a href="#cb10-19" tabindex="-1"></a><span class="co">#&gt; 5     A374      WW.Cool         10.970</span></span>
-<span id="cb10-20"><a href="#cb10-20" tabindex="-1"></a><span class="co">#&gt; 6     A375      WW.Cool          9.775</span></span></code></pre></div>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a><span class="co">#&gt; 1    11430       WD.Hot          1.230</span></span>
+<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a><span class="co">#&gt; 2    11430  WD.Hot(Day)          6.359</span></span>
+<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a><span class="co">#&gt; 3    11430      WW.Cool         10.681</span></span>
+<span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a><span class="co">#&gt; 4    11430       WW.Hot          6.054</span></span>
+<span id="cb10-19"><a href="#cb10-19" tabindex="-1"></a><span class="co">#&gt; 5    11430  WW.Hot(Day)          9.301</span></span>
+<span id="cb10-20"><a href="#cb10-20" tabindex="-1"></a><span class="co">#&gt; 6     A310       WD.Hot          1.892</span></span></code></pre></div>
 <hr />
 </div>
 </div>
@@ -1042,7 +1043,7 @@ the model.</p>
 <span id="cb28-5"><a href="#cb28-5" tabindex="-1"></a>  <span class="do">## Display BLUPs.</span></span>
 <span id="cb28-6"><a href="#cb28-6" tabindex="-1"></a>  <span class="fu">head</span>(geMegaEnvPred<span class="sc">$</span>predictedValue)</span>
 <span id="cb28-7"><a href="#cb28-7" tabindex="-1"></a>}</span>
-<span id="cb28-8"><a href="#cb28-8" tabindex="-1"></a><span class="co">#&gt; Online License checked out Tue Jun 24 14:29:39 2025</span></span>
+<span id="cb28-8"><a href="#cb28-8" tabindex="-1"></a><span class="co">#&gt; Online License checked out Wed Nov 12 09:59:05 2025</span></span>
 <span id="cb28-9"><a href="#cb28-9" tabindex="-1"></a><span class="co">#&gt;       megaEnv_1 megaEnv_2 megaEnv_3 megaEnv_4</span></span>
 <span id="cb28-10"><a href="#cb28-10" tabindex="-1"></a><span class="co">#&gt; 11430    6.4742    7.2043    7.1343    6.7571</span></span>
 <span id="cb28-11"><a href="#cb28-11" tabindex="-1"></a><span class="co">#&gt; A3       5.9956    6.6085    6.7493    6.5720</span></span>
